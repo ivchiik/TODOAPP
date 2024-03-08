@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native';
-import {colors} from '../../constants';
+import { StyleSheet } from "react-native";
+import { colors } from "../../constants";
 
 export const styles = StyleSheet.create({
   container: {
@@ -8,33 +8,34 @@ export const styles = StyleSheet.create({
   },
 
   btnWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
     marginTop: 45,
+    marginBottom: 12
   },
 
   btnRow: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 15,
   },
 
   btnContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     gap: 5,
   },
 
   btnText: {
     color: colors.textColor,
     fontSize: 10,
-    fontWeight: '500',
+    fontWeight: "500",
   },
 
   clearTasksText: {
     color: colors.textColor,
     fontSize: 12,
-    fontWeight: '500',
-    textDecorationLine: 'underline',
+    fontWeight: "500",
+    textDecorationLine: "underline",
   },
 
   line: {
@@ -44,8 +45,8 @@ export const styles = StyleSheet.create({
   },
 
   addIcon: {
-    position: 'absolute',
-    alignSelf: 'center',
+    position: "absolute",
+    alignSelf: "center",
     bottom: 0,
   },
 });

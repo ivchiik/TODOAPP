@@ -15,7 +15,7 @@ interface AppButtonProps {
   style?: StyleProp<ViewStyle>;
   styleText?: StyleProp<TextStyle>;
   text: string;
-  onPress: (event: GestureResponderEvent) => void;
+  onPress: () => void;
 }
 
 export const AppButton = (props: AppButtonProps) => {

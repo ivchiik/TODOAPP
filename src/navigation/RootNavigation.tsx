@@ -1,14 +1,14 @@
 import {
   NavigationContainer,
   createNavigationContainerRef,
-} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {History, Tasks} from '../screens';
+} from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { History, Tasks } from "screens";
 import {
   RootStackParamList,
   ScreenRoutes,
   screenOptions,
-} from './Navigation.types';
+} from "./Navigation.types";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 export const navigationRef = createNavigationContainerRef();
@@ -19,12 +19,12 @@ export const RootNavigation = () => {
         <Stack.Screen
           name={ScreenRoutes.TASKS}
           component={Tasks}
-          options={{animation: 'fade'}}
+          options={{ animation: "fade" }}
         />
         <Stack.Screen
           name={ScreenRoutes.HISTORY}
           component={History}
-          options={{animation: 'fade'}}
+          options={{ animation: "fade" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
