@@ -17,10 +17,20 @@ interface TaskProps {
   id: number;
   tasks: Task[];
   deleteTask: (tasks: Task[], id: number) => void;
+  setIsEditing: (val: number, name: string, text: string) => void;
 }
 
 export const Task = (props: TaskProps) => {
-  const { onEdit, name, text, id, completeTask, tasks, deleteTask } = props;
+  const {
+    onEdit,
+    name,
+    text,
+    id,
+    completeTask,
+    tasks,
+    deleteTask,
+    setIsEditing,
+  } = props;
 
   const [pressed, setPressed] = useState(false);
   return (
@@ -40,9 +50,7 @@ export const Task = (props: TaskProps) => {
 
       <View style={styles.footerWrapper}>
         <View style={styles.rowContainer}>
-          <Pressable
-            onPress={() => onEdit("Dorem ipsum dolor sit", "Hello Hello Hello")}
-          >
+          <Pressable onPress={() => setIsEditing(id, name, text)}>
             <EditIcon />
           </Pressable>
           <Pressable onPress={() => deleteTask(tasks, id)}>

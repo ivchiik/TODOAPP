@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-end",
     marginTop: 45,
-    marginBottom: 12
+    marginBottom: 12,
   },
 
   btnRow: {
@@ -45,8 +45,6 @@ export const styles = StyleSheet.create({
   },
 
   addIcon: {
-    position: "absolute",
-    alignSelf: "center",
-    bottom: 0,
+    zIndex: 99
   },
 });

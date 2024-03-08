@@ -7,7 +7,7 @@ import { AppButton, AppText } from "components/index";
 
 import CloseIcon from "images/ModalClose.svg";
 
-interface CustomModalProps {
+interface EditModalProps {
   isVisible?: boolean;
   hide?: () => void;
   close?: () => void;
@@ -21,7 +21,7 @@ interface CustomModalProps {
   isEditing: null | number;
 }
 
-export const CustomModal = (props: CustomModalProps) => {
+export const EditModal = (props: EditModalProps) => {
   const {
     isVisible,
     hide,
@@ -34,14 +34,13 @@ export const CustomModal = (props: CustomModalProps) => {
     isEditing,
     onEdit,
   } = props;
-  
   return (
     <View style={styles.container}>
       <ReactNativeModal isVisible={isVisible} onBackdropPress={hide}>
         <View style={styles.insideContainer}>
           <View style={styles.headerWrapper}>
             <View />
-            <AppText style={styles.headText}>Create task</AppText>
+            <AppText style={styles.headText}>Edit task name</AppText>
             <Pressable onPress={close}>
               <CloseIcon />
             </Pressable>

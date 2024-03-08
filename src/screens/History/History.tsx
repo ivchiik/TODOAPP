@@ -13,10 +13,17 @@ export const History = () => {
   const navigation = useNavigation();
 
   const [completedTasks, setCompletedTasks] = useState<Task[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
     getTasks();
   }, []);
+
+  const filteredTasks = completedTasks.filter(
+    (task) =>
+      task.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      task.text.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const getTasks = async () => {
     await AsyncStorage.getItem("completedTasks").then((res) => {
@@ -40,7 +47,7 @@ export const History = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header />
+      <Header setSearchQuery={setSearchQuery} />
       <View style={styles.btnWrapper}>
         <View style={styles.btnRow}>
           <View style={styles.btnContainer}>
@@ -60,7 +67,7 @@ export const History = () => {
       </View>
       {/* <View style={styles.line} /> */}
       <FlatList
-        data={completedTasks}
+        data={filteredTasks}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <HistoryTask
