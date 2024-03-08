@@ -2,29 +2,26 @@ import React, { useEffect, useState } from "react";
 import { View, Pressable, FlatList } from "react-native";
 import { AppText, Header, Task, CustomModal, EditModal } from "components";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { styles } from "./Styles";
 
 import AddIcon from "images/AddIcon.svg";
 import TasksIcon from "images/TasksIcon.svg";
 import HistoryEmptyIcon from "images/HistoryEmptyIcon.svg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { RootStackParamList } from "navigation/Navigation.types";
 
 export const Tasks = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
-  const [isEditing, setIsEditing] = useState<Task>({
-    id: 0,
-    name: "",
-    text: "",
-  });
+  const [isEditing, setIsEditing] = useState<null | number>(null);
   const [modalEdit, setModalEdit] = useState<{ name: string; text: string }>({
     name: "",
     text: "",
   });
   const [tasks, setTasks] = useState<Task[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   useEffect(() => {
     getTasks();
@@ -78,12 +75,12 @@ export const Tasks = () => {
   const handleModalEdit = async () => {
     setEditModalVisible(true);
     const task: Task = {
-      name: modalEdit.name,
-      text: modalEdit.text,
-      id: isEditing.id!,
+      name: modalEdit?.name,
+      text: modalEdit?.text,
+      id: isEditing!,
     };
 
-    const filteredTasks = tasks.filter((task) => task.id !== isEditing.id);
+    const filteredTasks = tasks.filter((task) => task.id !== isEditing);
 
     const newTaskArray = [...filteredTasks, task];
 
@@ -93,7 +90,7 @@ export const Tasks = () => {
   };
 
   const onPressEdit = (id: number, name: string, text: string) => {
-    setIsEditing({ id, name, text });
+    setIsEditing(id);
     setModalEdit({ name, text });
     handleEditModalOpen();
   };
@@ -167,7 +164,7 @@ export const Tasks = () => {
           </View>
           <View style={styles.btnContainer}>
             <AppText style={styles.btnText}>History</AppText>
-            <Pressable onPress={() => navigation.navigate("HISTORY" as never)}>
+            <Pressable onPress={() => navigation.navigate("HISTORY")}>
               <HistoryEmptyIcon />
             </Pressable>
           </View>
@@ -216,8 +213,6 @@ export const Tasks = () => {
         close={handleModalClose}
         changeTask={onChangeText}
         onSave={handleModalSave}
-        setIsEditing={onPressEdit}
-        isEditing={isEditing}
       />
 
       <EditModal
@@ -227,7 +222,6 @@ export const Tasks = () => {
         taskName={modalEdit?.name}
         taskText={modalEdit?.text}
         changeTask={onChangeText}
-        taskText={modalEdit?.text}
         onSave={handleModalEdit}
       />
     </SafeAreaView>

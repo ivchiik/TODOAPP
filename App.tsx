@@ -5,8 +5,8 @@
  * @format
  */
 
-import {RootNavigation} from './src/navigation/RootNavigation';
-import React from 'react';
+import { RootNavigation } from "./src/navigation/RootNavigation";
+import React, { useEffect } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -14,7 +14,7 @@ import {
   StyleSheet,
   Text,
   View,
-} from 'react-native';
+} from "react-native";
 
 function App(): React.JSX.Element {
   return (

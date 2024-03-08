@@ -15,25 +15,11 @@ interface EditModalProps {
   taskName?: string;
   taskText?: string;
   changeTask: (name: string, text: string) => void;
-  changeTaskText?: (str: string) => void;
-  onEdit: boolean;
-  setIsEditing: (val: boolean) => void;
-  isEditing: null | number;
 }
 
 export const EditModal = (props: EditModalProps) => {
-  const {
-    isVisible,
-    hide,
-    close,
-    onSave,
-    taskName,
-    taskText,
-    changeTask,
-    changeTaskText,
-    isEditing,
-    onEdit,
-  } = props;
+  const { isVisible, hide, close, onSave, taskName, taskText, changeTask } =
+    props;
   return (
     <View style={styles.container}>
       <ReactNativeModal isVisible={isVisible} onBackdropPress={hide}>
@@ -49,7 +35,7 @@ export const EditModal = (props: EditModalProps) => {
             <TextInput
               placeholder="Task name"
               style={styles.taskNameInput}
-              onChangeText={(value) => changeTask(value, taskText)}
+              onChangeText={(value) => changeTask(value, taskText!)}
               value={taskName}
             />
           </View>
@@ -62,15 +48,11 @@ export const EditModal = (props: EditModalProps) => {
               placeholderTextColor="#6C86A8"
               multiline={true}
               value={taskText}
-              onChangeText={(value) => changeTask(taskName, value)}
+              onChangeText={(value) => changeTask(taskName!, value)}
             />
           </View>
 
-          <AppButton
-            style={styles.btn}
-            text="Save"
-            onPress={isEditing ? onEdit : onSave}
-          />
+          <AppButton style={styles.btn} text="Save" onPress={onSave} />
         </View>
       </ReactNativeModal>
     </View>

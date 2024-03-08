@@ -1,5 +1,5 @@
-import React, {ReactNode} from 'react';
-import {Text, type StyleProp, type TextStyle} from 'react-native';
+import React, { ReactNode } from "react";
+import { Text, type StyleProp, type TextStyle } from "react-native";
 
 interface AppTextProps {
   children: ReactNode;
@@ -7,9 +7,9 @@ interface AppTextProps {
 }
 
 export const AppText = (props: AppTextProps) => {
-  const {children, style} = props;
+  const { children, style } = props;
 
   const text = children;
 
-  return <Text style={style}>{text}</Text>;
+  return <Text style={[style, { fontFamily: "Poppins-Regular" }]}>{text}</Text>;
 };
