@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Pressable, FlatList } from "react-native";
 import { AppText, Header, Task, CustomModal } from "components";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -8,6 +8,7 @@ import { styles } from "./Styles";
 import AddIcon from "images/AddIcon.svg";
 import TasksIcon from "images/TasksIcon.svg";
 import HistoryEmptyIcon from "images/HistoryEmptyIcon.svg";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const Tasks = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -19,7 +20,20 @@ export const Tasks = () => {
     name: "",
     text: "",
   });
+  const [tasks, setTasks] = useState<Task[]>([]);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    getTasks();
+  }, []);
+
+  const getTasks = async () => {
+    await AsyncStorage.getItem("tasks").then((res) => {
+      if (res) {
+        setTasks(JSON.parse(res));
+      }
+    });
+  };
 
   const handleModalPress = () => {
     setModalVisible(true);
@@ -33,17 +47,42 @@ export const Tasks = () => {
     }));
   };
 
-  const handleModalEdit = (name: string, text: string) => {
+  const handleModalEdit = (name?: string, text?: string) => {
     setModalVisible(true);
-    setModalEdit(() => ({
-      name: name,
-      text: text,
-    }));
+    setModalEdit({
+      name: name || "",
+      text: text || "",
+    });
   };
 
-  const handleModalSave = () => {
+  const handleModalSave = async () => {
+    await AsyncStorage.getItem("tasks").then(async (res) => {
+      let parsed: Task[];
+      if (!res) {
+        parsed = [];
+      } else {
+        parsed = JSON.parse(res);
+      }
 
-  }
+      const id = parsed?.length || 0;
+
+      const task: Task = {
+        id: id,
+        name: modalEdit.name,
+        text: modalEdit.text,
+        completed: false,
+      };
+
+      parsed.push(task);
+      setTasks(parsed);
+      await AsyncStorage.setItem("tasks", JSON.stringify(parsed));
+      handleModalClose();
+    });
+  };
+
+  const changeTaskName = (value: string) => {
+    setModalData({ name: value, text: modalData.text });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -65,9 +104,13 @@ export const Tasks = () => {
       </View>
       {/* <View style={styles.line} /> */}
       <FlatList
-        data={[1, 2, 3]}
+        data={tasks}
         showsVerticalScrollIndicator={false}
-        renderItem={() => <Task onEdit={handleModalEdit} />}
+        renderItem={({ item }) =>
+          (!item.completed && (
+            <Task name={item.name} onEdit={handleModalEdit} text={item.text} />
+          )) || <View />
+        }
         ListFooterComponent={() => <View style={{ height: 30 }} />}
       />
 
@@ -81,6 +124,8 @@ export const Tasks = () => {
         taskText={modalEdit.text}
         hide={() => setModalVisible(false)}
         close={handleModalClose}
+        changeTask={handleModalEdit}
+        onSave={handleModalSave}
       />
     </SafeAreaView>
   );

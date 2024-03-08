@@ -14,10 +14,21 @@ interface CustomModalProps {
   onSave: () => void;
   taskName?: string;
   taskText?: string;
+  changeTask: (name: string, text: string) => void;
+  changeTaskText?: (str: string) => void;
 }
 
 export const CustomModal = (props: CustomModalProps) => {
-  const { isVisible, hide, close, onSave, taskName, taskText } = props;
+  const {
+    isVisible,
+    hide,
+    close,
+    onSave,
+    taskName,
+    taskText,
+    changeTask,
+    changeTaskText,
+  } = props;
   return (
     <View style={styles.container}>
       <ReactNativeModal isVisible={isVisible} onBackdropPress={hide}>
@@ -35,6 +46,7 @@ export const CustomModal = (props: CustomModalProps) => {
             <TextInput
               placeholder="Task name"
               style={styles.taskNameInput}
+              onChangeText={(value) => changeTask(value, taskText)}
               value={taskName}
             />
           </View>
@@ -47,6 +59,7 @@ export const CustomModal = (props: CustomModalProps) => {
               placeholderTextColor="#6C86A8"
               multiline={true}
               value={taskText}
+              onChangeText={(value) => changeTask(taskName, value)}
             />
           </View>
 

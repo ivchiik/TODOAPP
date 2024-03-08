@@ -11,16 +11,18 @@ import Marked from "images/MarkedIcon.svg";
 
 interface TaskProps {
   onEdit?: (name: string, text: string) => void;
+  name: string;
+  text: string;
 }
 
 export const Task = (props: TaskProps) => {
-  const { onEdit } = props;
+  const { onEdit, name, text } = props;
 
   const [pressed, setPressed] = useState(false);
   return (
     <View style={styles.container}>
       <View style={styles.headWrapper}>
-        <AppText style={styles.headText}>Dorem ipsum dolor sit</AppText>
+        <AppText style={styles.headText}>{name}</AppText>
         <Pressable onPress={() => setPressed(!pressed)}>
           {pressed ? <ArrowUp /> : <ArrowDown />}
         </Pressable>
@@ -28,10 +30,7 @@ export const Task = (props: TaskProps) => {
 
       {!pressed && (
         <View style={styles.textWrapper}>
-          <AppText style={styles.text}>
-            s Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-            vulputate libero et velit consectetur adipiscing.
-          </AppText>
+          <AppText style={styles.text}>{text}</AppText>
         </View>
       )}
 
