@@ -86,7 +86,7 @@ export const Tasks = () => {
         let parsed = JSON.parse(res);
         const foundTask: Task = parsed.find((task: Task) => task.id == id);
         await handleTaskCompletion(foundTask);
-        removeTaskFromTasks(parsed, foundTask);
+        removeTaskFromTasks(parsed, foundTask.id);
       }
     });
   };
@@ -103,8 +103,9 @@ export const Tasks = () => {
     );
   };
 
-  const removeTaskFromTasks = async (parsed: Task[], foundTask: Task) => {
-    const removedArray = parsed.filter((task) => task !== foundTask);
+  const removeTaskFromTasks = async (parsed: Task[], id: number) => {
+    const removedArray = parsed.filter((task) => task.id !== id);
+    console.log(parsed, id);
     await AsyncStorage.setItem("tasks", JSON.stringify(removedArray));
     setTasks(removedArray);
   };
@@ -138,6 +139,8 @@ export const Tasks = () => {
             text={item.text}
             completeTask={completeTask}
             id={item.id}
+            tasks={tasks}
+            deleteTask={removeTaskFromTasks}
           />
         )}
         ListFooterComponent={() => <View style={{ height: 30 }} />}
