@@ -80,8 +80,33 @@ export const Tasks = () => {
     });
   };
 
-  const changeTaskName = (value: string) => {
-    setModalData({ name: value, text: modalData.text });
+  const completeTask = async (id: number) => {
+    await AsyncStorage.getItem("tasks").then(async (res) => {
+      if (res) {
+        let parsed = JSON.parse(res);
+        const foundTask: Task = parsed.find((task: Task) => task.id == id);
+        await handleTaskCompletion(foundTask);
+        removeTaskFromTasks(parsed, foundTask);
+      }
+    });
+  };
+
+  const handleTaskCompletion = async (foundTask: Task) => {
+    const completedTasks = await AsyncStorage.getItem("completedTasks");
+    let parsedCompletedTasks =
+      (completedTasks && JSON.parse(completedTasks)) || [];
+    parsedCompletedTasks.push(foundTask);
+
+    await AsyncStorage.setItem(
+      "completedTasks",
+      JSON.stringify(parsedCompletedTasks)
+    );
+  };
+
+  const removeTaskFromTasks = async (parsed: Task[], foundTask: Task) => {
+    const removedArray = parsed.filter((task) => task !== foundTask);
+    await AsyncStorage.setItem("tasks", JSON.stringify(removedArray));
+    setTasks(removedArray);
   };
 
   return (
@@ -106,11 +131,15 @@ export const Tasks = () => {
       <FlatList
         data={tasks}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) =>
-          (!item.completed && (
-            <Task name={item.name} onEdit={handleModalEdit} text={item.text} />
-          )) || <View />
-        }
+        renderItem={({ item }) => (
+          <Task
+            name={item.name}
+            onEdit={handleModalEdit}
+            text={item.text}
+            completeTask={completeTask}
+            id={item.id}
+          />
+        )}
         ListFooterComponent={() => <View style={{ height: 30 }} />}
       />
 

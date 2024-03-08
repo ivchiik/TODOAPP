@@ -13,10 +13,12 @@ interface TaskProps {
   onEdit?: (name: string, text: string) => void;
   name: string;
   text: string;
+  completeTask: (id: number) => void;
+  id: number;
 }
 
 export const Task = (props: TaskProps) => {
-  const { onEdit, name, text } = props;
+  const { onEdit, name, text, id, completeTask } = props;
 
   const [pressed, setPressed] = useState(false);
   return (
@@ -43,10 +45,10 @@ export const Task = (props: TaskProps) => {
           </Pressable>
           <DeleteIcon />
         </View>
-        <View style={styles.rowContainer}>
+        <Pressable onPress={() => completeTask(id)} style={styles.rowContainer}>
           <AppText style={styles.markText}>Mark completed</AppText>
           <Marked />
-        </View>
+        </Pressable>
       </View>
     </View>
   );
