@@ -1,7 +1,8 @@
 import React from "react";
 import { View } from "react-native";
-import { styles } from "./Styles";
+
 import { AppText, SearchBox } from "components";
+import { styles } from "./Styles";
 
 import ProfileIcon from "images/ProfileIcon.svg";
 import SettingsIcon from "images/SettingsIcon.svg";

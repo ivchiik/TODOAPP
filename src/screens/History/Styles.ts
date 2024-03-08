@@ -43,5 +43,8 @@ export const styles = StyleSheet.create({
     height: 0.5,
     marginTop: 20,
   },
-  
+
+  footerView: {
+    height: 30,
+  },
 });

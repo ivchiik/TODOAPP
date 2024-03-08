@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { View, Pressable } from "react-native";
-import { styles } from "./Styles";
+
 import { AppText } from "components";
+import { styles } from "./Styles";
 
 import ArrowUp from "images/ArrowUp.svg";
 import ArrowDown from "images/ArrowDown.svg";

@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native';
-import {colors} from '../../constants';
+import { StyleSheet } from "react-native";
+import { colors } from "../../constants";
 
 export const styles = StyleSheet.create({
   container: {
@@ -7,51 +7,51 @@ export const styles = StyleSheet.create({
   },
 
   headerNameWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 
   nameWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 10,
   },
 
   name: {
     color: colors.nameColor,
     fontSize: 16,
-    fontWeight: '700',
+    fontWeight: "700",
   },
 
   btnWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
     marginTop: 45,
   },
 
   btnRow: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 15,
   },
 
   btnContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     gap: 5,
   },
 
   btnText: {
     color: colors.textColor,
     fontSize: 10,
-    fontWeight: '500',
+    fontWeight: "500",
   },
 
   clearTasksText: {
     color: colors.textColor,
     fontSize: 12,
-    fontWeight: '500',
-    textDecorationLine: 'underline',
+    fontWeight: "500",
+    textDecorationLine: "underline",
   },
 
   line: {

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { View, Pressable } from "react-native";
-import { styles } from "./Styles";
+
 import { AppText } from "components";
+import { styles } from "./Styles";
 
 import ArrowUp from "images/ArrowUp.svg";
 import ArrowDown from "images/ArrowDown.svg";
@@ -10,7 +11,6 @@ import DeleteIcon from "images/DeleteIcon.svg";
 import Marked from "images/MarkedIcon.svg";
 
 interface TaskProps {
-  onEdit?: (name: string, text: string) => void;
   name: string;
   text: string;
   completeTask: (id: number) => void;
@@ -21,16 +21,8 @@ interface TaskProps {
 }
 
 export const Task = (props: TaskProps) => {
-  const {
-    onEdit,
-    name,
-    text,
-    id,
-    completeTask,
-    tasks,
-    deleteTask,
-    setIsEditing,
-  } = props;
+  const { name, text, id, completeTask, tasks, deleteTask, setIsEditing } =
+    props;
 
   const [pressed, setPressed] = useState(false);
   return (

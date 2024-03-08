@@ -1,11 +1,11 @@
-import {StyleSheet} from 'react-native';
-import {colors} from '../../constants';
+import { StyleSheet } from "react-native";
+import { colors } from "../../constants";
 
 export const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     backgroundColor: colors.searchBarWhite,
     marginTop: 20,
     borderRadius: 6,
@@ -13,5 +13,9 @@ export const styles = StyleSheet.create({
 
   input: {
     padding: 12,
+  },
+
+  icon: {
+    marginRight: 12,
   },
 });

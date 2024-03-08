@@ -40,11 +40,20 @@ export const styles = StyleSheet.create({
 
   line: {
     backgroundColor: colors.lineColor,
+    width: "100%",
     height: 0.5,
     marginTop: 20,
   },
 
-  addIcon: {
-    zIndex: 99
+  footerView: {
+    height: 30,
   },
+
+  addIconWrapper: {
+    position: "absolute",
+    bottom: 0,
+    alignSelf: "center",
+    zIndex: 99,
+  },
+
 });

@@ -1,9 +1,9 @@
 import React from "react";
-import { View, Text, Pressable, TextInput } from "react-native";
+import { View, Pressable, TextInput } from "react-native";
 import ReactNativeModal from "react-native-modal";
 
+import { AppButton, AppText } from "components";
 import { styles } from "./Styles";
-import { AppButton, AppText } from "components/index";
 
 import CloseIcon from "images/ModalClose.svg";
 

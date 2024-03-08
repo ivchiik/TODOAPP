@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { View, Pressable, FlatList } from "react-native";
-import { AppText, Header, Task, CustomModal, EditModal } from "components";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { RootStackParamList } from "navigation/Navigation.types";
+
+import { AppText, Header, Task, CustomModal, EditModal } from "components";
 import { styles } from "./Styles";
 
 import AddIcon from "images/AddIcon.svg";
 import TasksIcon from "images/TasksIcon.svg";
 import HistoryEmptyIcon from "images/HistoryEmptyIcon.svg";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { RootStackParamList } from "navigation/Navigation.types";
 
 export const Tasks = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -41,6 +42,41 @@ export const Tasks = () => {
     });
   };
 
+  const clearTasks = async () => {
+    await AsyncStorage.removeItem("tasks");
+    setTasks([]);
+  };
+
+  const completeTask = async (id: number) => {
+    await AsyncStorage.getItem("tasks").then(async (res) => {
+      if (res) {
+        let parsed = JSON.parse(res);
+        const foundTask: Task = parsed.find((task: Task) => task.id == id);
+        await handleTaskCompletion(foundTask);
+        removeTaskFromTasks(parsed, foundTask.id);
+      }
+    });
+  };
+
+  const handleTaskCompletion = async (foundTask: Task) => {
+    const completedTasks = await AsyncStorage.getItem("completedTasks");
+    let parsedCompletedTasks =
+      (completedTasks && JSON.parse(completedTasks)) || [];
+    parsedCompletedTasks.push(foundTask);
+
+    await AsyncStorage.setItem(
+      "completedTasks",
+      JSON.stringify(parsedCompletedTasks)
+    );
+  };
+
+  const removeTaskFromTasks = async (parsed: Task[], id: number) => {
+    const removedArray = parsed.filter((task) => task.id !== id);
+    console.log(parsed, id);
+    await AsyncStorage.setItem("tasks", JSON.stringify(removedArray));
+    setTasks(removedArray);
+  };
+
   const handleModalPress = () => {
     setModalVisible(true);
   };
@@ -65,11 +101,6 @@ export const Tasks = () => {
       text: "",
     }));
     setIsEditing(null);
-  };
-
-  const clearTasks = async () => {
-    await AsyncStorage.removeItem("tasks");
-    setTasks([]);
   };
 
   const handleModalEdit = async () => {
@@ -119,36 +150,6 @@ export const Tasks = () => {
     });
   };
 
-  const completeTask = async (id: number) => {
-    await AsyncStorage.getItem("tasks").then(async (res) => {
-      if (res) {
-        let parsed = JSON.parse(res);
-        const foundTask: Task = parsed.find((task: Task) => task.id == id);
-        await handleTaskCompletion(foundTask);
-        removeTaskFromTasks(parsed, foundTask.id);
-      }
-    });
-  };
-
-  const handleTaskCompletion = async (foundTask: Task) => {
-    const completedTasks = await AsyncStorage.getItem("completedTasks");
-    let parsedCompletedTasks =
-      (completedTasks && JSON.parse(completedTasks)) || [];
-    parsedCompletedTasks.push(foundTask);
-
-    await AsyncStorage.setItem(
-      "completedTasks",
-      JSON.stringify(parsedCompletedTasks)
-    );
-  };
-
-  const removeTaskFromTasks = async (parsed: Task[], id: number) => {
-    const removedArray = parsed.filter((task) => task.id !== id);
-    console.log(parsed, id);
-    await AsyncStorage.setItem("tasks", JSON.stringify(removedArray));
-    setTasks(removedArray);
-  };
-
   const onChangeText = (name?: string, text?: string) => {
     setModalEdit({ name: name || "", text: text || "" });
   };
@@ -173,7 +174,6 @@ export const Tasks = () => {
           <AppText style={styles.clearTasksText}>Clear all Tasks</AppText>
         </Pressable>
       </View>
-      {/* <View style={styles.line} /> */}
       <FlatList
         data={filteredTasks}
         showsVerticalScrollIndicator={false}
@@ -189,22 +189,14 @@ export const Tasks = () => {
             setIsEditing={onPressEdit}
           />
         )}
-        ListFooterComponent={() => <View style={{ height: 30 }} />}
+        ListFooterComponent={() => <View style={styles.footerView} />}
       />
 
-      <View
-        style={{
-          position: "absolute",
-          bottom: 0,
-          alignSelf: "center",
-          zIndex: 99,
-        }}
-      >
-        <Pressable style={styles.addIcon} onPress={handleModalPress}>
+      <View style={styles.addIconWrapper}>
+        <Pressable onPress={handleModalPress}>
           <AddIcon />
         </Pressable>
       </View>
-
       <CustomModal
         isVisible={modalVisible}
         taskName={modalEdit?.name}
@@ -214,7 +206,6 @@ export const Tasks = () => {
         changeTask={onChangeText}
         onSave={handleModalSave}
       />
-
       <EditModal
         isVisible={editModalVisible}
         hide={() => setEditModalVisible(false)}

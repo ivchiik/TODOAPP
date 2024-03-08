@@ -1,4 +1,5 @@
 import { View, TextInput } from "react-native";
+
 import { styles } from "./Styles";
 
 import SearchIcon from "images/SearchIcon.svg";
@@ -20,7 +21,7 @@ export const SearchBox = (props: SearchBoxProps) => {
         style={styles.input}
         onChangeText={handleSearch}
       />
-      <SearchIcon style={{ marginRight: 12 }} />
+      <SearchIcon style={styles.icon} />
     </View>
   );
 };
