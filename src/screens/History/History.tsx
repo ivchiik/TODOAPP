@@ -23,8 +23,8 @@ export const History = () => {
 
   const filteredTasks = completedTasks.filter(
     (task) =>
-      task.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      task.text.toLowerCase().includes(searchQuery.toLowerCase())
+      task?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      task?.text.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const getTasks = async () => {
